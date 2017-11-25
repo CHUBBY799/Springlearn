@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/aop/spring-aop.xsd" >
+
+
+
+    <!--<bean id="compactDIsc" class="soundsystem.BlankDisc">-->
+        <!--<constructor-arg value="Sgt"/>-->
+        <!--<constructor-arg value="the beatles"/>-->
+        <!--<constructor-arg>-->
+            <!--<list>-->
+                <!--<value>sgt1</value>-->
+                <!--<value>sgt2</value>-->
+                <!--<value>sgt3</value>-->
+                <!--<value>sgt4</value>-->
+                <!--<value>sgt5</value>-->
+            <!--</list>-->
+        <!--</constructor-arg>-->
+    <!--</bean>-->
+    <!--<bean id="setting" class="org.springframework.beans.factory.config.PropertiesFactoryBean">-->
+        <!--<property name="locations">-->
+            <!--<list>-->
+                <!--<value>classpath:application.properties</value>-->
+            <!--</list>-->
+        <!--</property>-->
+        <!--<property name="fileEncoding" value="UTF-8"></property>-->
+    <!--</bean>-->
+    <!--<bean id="audience" class="concert.Audience"/>-->
+    <!--<bean id="jazz" class="concert.Jazz"/>-->
+    <!--<aop:config>-->
+        <!--<aop:aspect ref="audience">-->
+            <!--<aop:before pointcut="execution(* concert.Performance.perform(..))"-->
+                         <!--method="silenceCellPhones"/>-->
+            <!--<aop:before method="takeSeats"-->
+                         <!--pointcut="execution(* concert.Performance.perform(..))"/>-->
+            <!--<aop:after-returning method="applause"-->
+                                 <!--pointcut="execution(* concert.Performance.perform(..))"/>-->
+            <!--<aop:after-throwing method="demandRefund"-->
+                                <!--pointcut="execution(* concert.Performance.perform(..))"/>-->
+        <!--</aop:aspect>-->
+    <!--</aop:config>-->
+    <!--<aop:config>-->
+        <!--<aop:pointcut id="performance" expression="execution(* concert.Performance.perform(..))"/>-->
+        <!--<aop:aspect ref="audience">-->
+
+            <!--<aop:before method="silenceCellPhones" pointcut-ref="performance"/>-->
+            <!--<aop:before method="takeSeats" pointcut-ref="performance"/>-->
+            <!--<aop:after-returning method="applause" pointcut-ref="performance"/>-->
+            <!--<aop:after-throwing method="demandRefund" pointcut-ref="performance"/>-->
+        <!--</aop:aspect>-->
+    <!--</aop:config>-->
+    <!--<aop:config>-->
+        <!--<aop:pointcut id="performance" expression="execution(* concert.Performance.perform(..))"/>-->
+        <!--<aop:aspect ref="audience">-->
+            <!--<aop:around method="watchPerformance" pointcut-ref="performance"/>-->
+        <!--</aop:aspect>-->
+    <!--</aop:config>-->
+    <bean id="blankDisc" class="soundsystem.BlankDisc">
+        <constructor-arg name="artist" value="jack"/>
+        <constructor-arg name="title" value="blankdisc"/>
+        <constructor-arg name="tracks">
+            <list>
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+            </list>
+        </constructor-arg>
+    </bean>
+    <bean id="trackCounter" class="soundsystem.TrackCounter"/>
+    <aop:config>
+        <!--<aop:pointcut expression="execution(* soundsystem.BlankDisc.playTrack(int)) and args() " id="playTrack"/>-->
+        <aop:aspect ref="trackCounter">
+            <aop:pointcut expression="execution(* soundsystem.BlankDisc.playTrack(int)) and args(w) " id="playTrack"/>
+            <aop:before method="countTrack" pointcut-ref="playTrack"/>
+        </aop:aspect>
+    </aop:config>
+
+
+</beans>
